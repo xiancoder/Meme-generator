@@ -5,11 +5,11 @@ import GIF from 'gif.js';
 import omggif from 'omggif';
 import Footer from './footer'
 
-const Vendors = 'https://cdn.jsdelivr.net/gh/wincerchan/Meme-generator@0.3/public',
-    messages = [
-        <p>服务器在国外，加载图片在晚上高峰期可能会很慢；</p>,
-        <p>由于下载采用了<a href="https://developer.mozilla.org/zh-CN/docs/Web/API/Blob" rel="noopener noreferrer" target="_blank">Blob</a> 协议，故仅新版 Chrome、Firefox、Opera、Edge 支持下载，其它浏览器请点击预览后右击保存。</p>
-    ];
+const Vendors = 'https://cdn.jsdelivr.net/gh/wincerchan/Meme-generator@0.3/public'
+const messages = [
+    <p>啦啦啦 我是卖报的小行家</p>,
+    <p>由于下载采用了<a href="https://developer.mozilla.org/zh-CN/docs/Web/API/Blob" rel="noopener noreferrer" target="_blank">Blob</a> 协议，故仅新版 Chrome、Firefox、Opera、Edge 支持下载，其它浏览器请点击预览后右击保存。</p>
+];
 
 class Progress extends Component {
     render() {
@@ -23,15 +23,9 @@ class Progress extends Component {
 class Notification extends Component {
     render() {
         if (this.props.show)
-            return (
-                <div id="success-notification" className="notification is-success">
-                    生成完毕。
-            </div>
-            )
+            return ( <div id="success-notification" className="notification is-success"> 生成完毕。 </div> )
         else
-            return (
-                null
-            )
+            return ( null )
     }
 }
 
@@ -50,10 +44,9 @@ class Template extends Component {
         this.setState({ showProgressBar: true })
     }
     createWorkers = async (info) => {
-        const tmpWorker = await fetch(Vendors + '/gif.worker.js'),
-            workerSrcBlob = new Blob([await tmpWorker.text()], { type: 'text/javascript' }),
-            workerBlobURL = window.URL.createObjectURL(workerSrcBlob);
-
+        const tmpWorker = await fetch(Vendors + '/gif.worker.js')
+        const workerSrcBlob = new Blob([await tmpWorker.text()], { type: 'text/javascript' })
+        const workerBlobURL = window.URL.createObjectURL(workerSrcBlob);
         this.gif = new GIF({
             workerScript: workerBlobURL,
             workers: 3,
@@ -61,19 +54,18 @@ class Template extends Component {
             width: info.width,
             height: info.height,
         })
-
     }
 
     renderGif = () => {
         this.gif.render();
         this.gif.on('progress', progress => {
-            this.setState({ progressNum: 100 * progress });
+            this.setState({ progressNum: 100 * progress })
             this.finished = false;
         })
         this.gif.on('finished', blob => {
             this.finished = true;
             const img = this.refs.gifMeme;
-            window.gifUrl = window.URL.createObjectURL(blob);
+            window.gifUrl = window.URL.createObjectURL(blob)
             img.src = window.gifUrl;
             this.hideBar()
             if (this.download) {
@@ -90,7 +82,7 @@ class Template extends Component {
     }
 
     downGif = () => {
-        let a = document.createElement('a');
+        let a = document.createElement('a')
         a.href = window.gifUrl;
         a.download = 'meme.gif';
         document.body.appendChild(a);

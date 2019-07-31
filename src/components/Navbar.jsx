@@ -4,32 +4,20 @@ import 'bulma/css/bulma.css'
 import './layout.css'
 import getConfig from './config'
 
-const Title = "Meme",
-    navbarItems = [
-        {
-            'name': '文档',
-            'link': 'https://github.com/WincerChan/Meme-generator/wiki'
-        },
-        {
-            'name': '关于',
-            'link': 'https://blog.itswincer.com/posts/8575e868/'
-        }
-    ],
-    menuName = '选择其它梗',
-    sourceInfo = {
-        'name': '源码',
-        'link': 'https://github.com/WincerChan/Meme-generator'
-    };
+const Title = "Meme"
+const navbarItems = [
+    { 'name': '文档', 'link': 'https://github.com/WincerChan/Meme-generator/wiki' },
+    { 'name': '关于', 'link': 'https://blog.itswincer.com/posts/8575e868/' }
+]
+const menuName = '选择其它梗'
+const sourceInfo = { 'name': '源码', 'link': 'https://github.com/WincerChan/Meme-generator' }
 
 class Navbar extends Component {
     constructor(props) {
         super(props)
-        this.state = {
-            navBarIsActive: false
-        }
+        this.state = { navBarIsActive: false }
         this.configs = getConfig()
     }
-
     toggleNavbar = () => {
         this.setState((prev, props) => {
             const newState = !prev.navBarIsActive;
@@ -85,5 +73,4 @@ class Navbar extends Component {
         )
     }
 }
-
-export default Navbar;
+export default Navbar

@@ -7,11 +7,11 @@ import SEO from '../components/seo'
 import { Vengeful } from '../components/Venge'
 
 const IndexPage = () => (
-  <Layout>
-    <SEO title="Home" keywords={[`Meme`, `表情包生成`, `纯 JavaScript`]} />
-    <Navbar />
-    <Vengeful />
-  </Layout >
+    <Layout>
+        <SEO title="Home" keywords={[`Meme`, `表情包生成`, `纯 JavaScript`]} />
+        <Navbar />
+        <Vengeful />
+    </Layout >
 )
 
 export default IndexPage

@@ -1,22 +1,17 @@
-
 import domtoimage from 'dom-to-image';
 import React, { Component } from 'react'
 import FileSaver from 'file-saver';
 import { Vendors } from "./template";
 // const Vendors = 'https://cdn.jsdelivr.net/gh/wincerchan/Meme-generator@0.3/public';
-
 const imgCaption = [
     <p>{(new Date()).getMonth() + 1 + '月' + (new Date()).getDate() + '日 天气 大火炉'}</p>,
     <p>和富婆走丢了。</p>
-],
-    messages = [
-        <p>点击文字可直接编辑；</p>,
-        <p>点击图片可自定义上传静态图片；</p>,
-        <p>由于下载采用了<a href="https://developer.mozilla.org/zh-CN/docs/Web/API/Blob" rel="noopener noreferrer" target="_blank">Blob</a> 协议，故仅新版 Chrome、Firefox、Opera、Edge 支持下载，其它浏览器请点击预览后右击保存。</p>
-    ];
-
+]
+const messages = [
+    <p>点击文字可直接编辑；</p>,
+    <p>点击图片可自定义上传静态图片；</p>,
+];
 class Vengeful extends Component {
-
     constructor(props) {
         super(props)
         this.state = {
@@ -24,7 +19,6 @@ class Vengeful extends Component {
             canvasHeight: 250
         }
     }
-
     componentDidMount() {
         // this.sourceImg = new Image();
         fetch(Vendors + '/img/example.png')
@@ -33,7 +27,6 @@ class Vengeful extends Component {
             .then(imgSrcBlob => window.URL.createObjectURL(imgSrcBlob))
             .then(url => this.loadImg(url))
     }
-
     loadImg = (url) => {
         let drawImg = (sourceImg) => {
             const ctx = this.refs.myCanvas.getContext('2d');
@@ -53,7 +46,6 @@ class Vengeful extends Component {
             }
         }
     }
-
     toPng = () => {
         domtoimage.toPng(this.refs.cnt)
             .then((dataUrl) => {
@@ -63,14 +55,12 @@ class Vengeful extends Component {
                 console.error('oops, something went wrong!', error)
             })
     }
-
     toBlob = () => {
         domtoimage.toBlob(this.refs.cnt)
             .then((blob) => {
                 FileSaver.saveAs(blob, 'meme.png')
             })
     }
-
     readImage = () => {
         if (this.state.selectedFile) {
             const FR = new FileReader();
@@ -78,21 +68,21 @@ class Vengeful extends Component {
                 const img = new Image();
                 img.src = e.target.result;
                 img.onload = async () => {
-                    await this.setState({ canvasHeight: 300 * (img.height / img.width) })
-                    this.refs.myCanvas.getContext('2d').drawImage(img, 0, 0, 300, this.state.canvasHeight)
+                    const w = img.width > 300 ? 300 : img.width
+                    const h = w * (img.height / img.width)
+                    await this.setState({ canvasHeight: h })
+                    this.refs.myCanvas.getContext('2d').drawImage(img, 0, 0, w, h)
                 }
             }
             FR.readAsDataURL(this.state.selectedFile)
         }
     }
-
     handleSelectedFile = async (event) => {
         await this.setState({
             selectedFile: event.target.files[0]
         })
         this.readImage()
     }
-
     render() {
         return (
             <section className="section container">
@@ -128,5 +118,4 @@ class Vengeful extends Component {
         )
     }
 }
-
 export { Vengeful };
